@@ -1,0 +1,22 @@
+.submenu_card {
+    a:hover {
+        text-decoration: none;
+    }
+
+    .submenu_card_mx {
+        height: 130px;
+        background-color: grey;
+        color: #FFFFFF;
+        font-size: 24px;
+    }
+}
+
+.submenu_card:nth-of-type(3n+2) {
+    div {
+        background-color: #FDB913;
+    }
+}
+
+em {
+    font-size: 14px;
+}

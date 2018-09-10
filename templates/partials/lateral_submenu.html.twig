@@ -1,0 +1,14 @@
+{# templates/partials/lateral_submenu.html.twig #}
+
+<div class="top_parent_menu">
+    {{ page.topParent.title }}<br/>
+</div>
+{% for subpage in page.topParent.children %}
+<div class="top_parent_submenu">
+    {% if page.title == subpage.title or page.parent.title == subpage.title %}
+        <a href="{{ subpage.url }}" class="pl-4 bold selected_submenu">> {{ subpage.title }}</a><br/>
+    {% else %}
+        <a href="{{ subpage.url }}" class="pl-4">{{ subpage.title }}</a><br/>
+    {% endif %}
+</div>
+{% endfor %}

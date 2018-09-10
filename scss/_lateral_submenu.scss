@@ -1,0 +1,29 @@
+.lateral_submenu {
+    background-image: linear-gradient(#5C5C5C 1%, #808080);
+    color: #FFFFFF;
+    padding-top: 30px;
+    min-height: calc(100vh - 230px) !important;
+
+    .selected_submenu
+    {
+        color: #FDB913;
+    }
+
+    .top_parent_menu {
+        font-size: 22px;
+    }
+
+    .top_parent_submenu {
+        font-size: 18px;
+    }
+
+    a {
+        color: #FFFFFF;
+    }
+
+    a:hover {
+        color: #FFFFFF;
+        text-decoration: underline;
+        text-decoration-color: #FDB913;
+    }
+}

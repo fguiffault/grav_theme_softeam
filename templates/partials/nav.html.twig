@@ -1,0 +1,17 @@
+{# templates/partials/nav.html.twig #}
+
+<div class="container">
+    <div class="row">
+        {% for subpage in page.children.visible %}
+            <div class="col-4 my-4 submenu_card">
+                <div class="mx-3">
+                    <a href="{{ subpage.url }}">
+                        <div class="submenu_card_mx text-center">
+                            {{ subpage.title }}
+                        </div>
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

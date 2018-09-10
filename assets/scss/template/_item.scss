@@ -1,0 +1,30 @@
+.item-content {
+  padding-bottom: $spacer;
+
+  .item-heading {
+    padding-top: $spacer;
+    padding-bottom: $spacer * .25;
+  }
+
+  h2.item-title {
+    margin-bottom: 0;
+  }
+
+  .comments {
+    margin-top: $spacer * .5;
+  }
+
+  img {
+    @extend .img-fluid;
+    margin-bottom: $spacer *.5;
+  }
+
+  table {
+    @extend .table;
+  }
+
+  blockquote {
+    @extend .blockquote;
+  }
+
+}

@@ -1,0 +1,13 @@
+streams:
+    schemes:
+        theme:
+            type: ReadOnlyStream
+            prefixes:
+                '':
+                    - user/themes/softeam
+                    - user/themes/bootstrap-blog
+logo:
+    image: 'user/themes/softeam/images/logo.png'
+navbar:
+    dropdown: false
+    sticky: false

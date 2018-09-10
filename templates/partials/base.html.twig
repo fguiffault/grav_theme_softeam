@@ -1,0 +1,135 @@
+{% set theme_config = attribute(config.themes, config.system.pages.theme) %}
+{% import "macros/bootstrap_tools.html.twig" as bsTools %}
+
+<!DOCTYPE html>
+<html lang="{{ grav.language.getActive ?: theme_config.default_lang }}">
+    <head>
+    {% block head %}
+        <meta charset="utf-8" />
+        <title>{% if header.title %}{{ header.title|e('html') }} | {% endif %}{{ site.title|e('html') }}</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% include 'partials/metadata.html.twig' %}
+        {% set favicon = theme_config.favicon ? theme_config.favicon|first : { type:'image/png', path: url('theme://images/logo.png') } %}
+        <link rel="icon" type="{{ favicon.type }}" href="{{ url( favicon.path ) }}" />
+        <link rel="canonical" href="{{ page.url(true, true) }}" />
+
+        {% block stylesheets %}
+        {% if theme_config.cdn_enabled %}
+            {% do assets.addCss('https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css', 102) %}
+            {% do assets.addCss('https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap-reboot.min.css', 100) %}
+            {% do assets.addCss('https://use.fontawesome.com/releases/v5.1.0/css/all.css', 10) %}
+            {% do assets.addCss('https://use.fontawesome.com/releases/v5.1.0/css/brands.css', 10) %}
+        {% else %}
+            {% do assets.addCss('theme://css/custom.css',105) %}
+            {% do assets.addCss('theme://assets/css-compiled/bootstrap/bootstrap.css', 102) %}
+            {% do assets.addCss('theme://assets/css-compiled/bootstrap/bootstrap-reboot.css', 100) %}
+            {% do assets.addCss('theme://assets/css/fontawesome.css', 10) %}
+            {% do assets.addCss('theme://assets/css/solid.css', 10) %}
+            {% do assets.addCss('theme://assets/css/regular.css', 10) %}
+            {% do assets.addCss('theme://assets/css/brands.css', 10) %}
+        {% endif %}
+        {% do assets.addCss('theme://assets/css-compiled/bootstrap-blog.css', 99) %}
+        {% endblock %}
+        {{ assets.css() }}
+
+        {% block javascripts %}
+        {% if theme_config.cdn_enabled %}
+            {% do assets.addJs('https://code.jquery.com/jquery-3.2.1.slim.min.js', 100) %}
+            {% do assets.addJs('https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js', 98) %}
+            {% do assets.addJs('https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js', 99) %}
+        {% else %}
+            {% do assets.addJs('jquery', 102) %}
+            {% do assets.addJs('theme://assets/js/popper.min.js', 101) %}
+            {% do assets.addJs('theme://assets/js/bootstrap.min.js', 100) %}
+        {% endif %}
+        {% do assets.addJs('theme://assets/js/bootstrap_blog.js', 99) %}
+        {% endblock %}
+        {{ assets.js() }}
+    {% endblock head %}
+    </head>
+    <body id="top" class="{{ page.header.body_classes }}">
+    {% block header %}
+        <div class="container-fluid header_page">
+            <div class="row bandeau">
+                <!-- Affichage du plugin de réseaux sociaux. -->
+                <div class="col-6"></div>
+                <div class="col-6">
+                    <div class="float-right">
+                        {% if config.plugins.social.enabled %}
+                            {% include 'partials/social.html.twig' with {'style': config.plugins.social.style} %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Affichage du logo. -->
+            <div class="row logo">
+                <div class="mx-auto">
+                    {% set logo_image = theme_config.logo.image %}
+                    <img class="rounded mx-auto d-block" src="{{ url(logo_image) }}" alt="" />
+                </div>
+            </div>
+
+            <!-- Affichage du menu. -->
+            <div class="row navbar_softeam">
+                <nav class="navbar navbar-expand-lg mx-auto">
+                    <div class="container-fluid">
+                        <ul class="nav navbar-nav">
+                            {% for page in pages.children %}
+                            <li>
+                                <a href="{{ page.url }}">{{ page.menu }}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+
+            <!-- Affichage du champ de recherche. -->
+            <div class="row recherche">
+                <div class="col-6 mx-auto">
+                    {% include 'partials/simplesearch_searchbox.html.twig' %}
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+
+    {% block body %}
+    <div class="container-fluid content_page">
+        <div class="row">
+            <!-- Affichage des sous-menus. -->
+            {% if (page != page.topParent and page.topParent.title != 'Pages') or '/search/' in page.url  %}
+                <!-- Affichage d'un menu latéral lorsqu'on se situe dans un sous-menu. -->
+                <div class="col-2 lateral_submenu">
+                    {{ include('partials/lateral_submenu.html.twig') }}
+                </div>
+            {% else %}
+                <div class="col-2"></div>
+            {% endif %}
+            <div class="col-8 content">
+                {% if page.children.visible is empty %}
+                    {% if page.content is empty %}
+                        Aucun article a afficher.
+                    {% else %}
+                        {% if page.title != "Page not Found" %}
+                            <h3>{{ page.title }}</h3>
+                            <em>Publié le {{ page.date|date('d/m/Y à H:i') }}</em><br/>
+                            <em>Dernière modification le {{ page.modified|date('d/m/Y à H:i') }}</em><br/><br/>
+                        {% endif %}
+                        {% block content %}{% endblock %}
+                    {% endif %}
+                {% else %}
+                    {{ include('partials/nav.html.twig') }}
+                {% endif %}
+            </div>
+            <div class="col-2"></div>
+        </div>
+    </div>
+    {% endblock %}
+
+    {% block bottom %}
+        {{ assets.js('bottom') }}
+    {% endblock %}
+    </body>
+</html>

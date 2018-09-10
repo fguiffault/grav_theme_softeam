@@ -1,0 +1,108 @@
+.bandeau {
+  background-color: #323B42;
+}
+.bandeau a {
+  color: #6A737A;
+}
+.bandeau a:hover {
+  color: #FDB913;
+}
+
+.header_page {
+  height: 230px;
+  background-color: rgba(51, 51, 51, 0.8);
+}
+
+.submenu {
+  padding-top: 100px;
+}
+
+.lateral_submenu {
+  background-image: linear-gradient(#5C5C5C 1%, #808080);
+  color: #FFFFFF;
+  padding-top: 30px;
+  min-height: calc(100vh - 230px) !important;
+}
+.lateral_submenu .selected_submenu {
+  color: #FDB913;
+}
+.lateral_submenu .top_parent_menu {
+  font-size: 22px;
+}
+.lateral_submenu .top_parent_submenu {
+  font-size: 18px;
+}
+.lateral_submenu a {
+  color: #FFFFFF;
+}
+.lateral_submenu a:hover {
+  color: #FFFFFF;
+  text-decoration: underline;
+  text-decoration-color: #FDB913;
+}
+
+.submenu_card a:hover {
+  text-decoration: none;
+}
+.submenu_card .submenu_card_mx {
+  height: 130px;
+  background-color: grey;
+  color: #FFFFFF;
+  font-size: 24px;
+}
+
+.submenu_card:nth-of-type(3n+2) div {
+  background-color: #FDB913;
+}
+
+em {
+  font-size: 14px;
+}
+
+.logo {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.navbar_softeam {
+  padding-bottom: 30px;
+}
+.navbar_softeam a {
+  color: #FFFFFF;
+}
+.navbar_softeam ul {
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.navbar_softeam ul li:not(:first-child) {
+  margin-left: 100px;
+}
+.navbar_softeam ul li a {
+  color: #FFFFFF;
+  font-size: 24px;
+}
+.navbar_softeam ul li a:hover {
+  text-decoration: underline;
+  text-decoration-color: #FDB913;
+}
+
+.recherche form {
+  margin-bottom: -20px;
+}
+
+.content_page {
+  background-color: #EFEFEF;
+  min-height: calc(100vh - 230px) !important;
+}
+.content_page .content {
+  padding-top: 60px;
+  height: 100% !important;
+  min-height: 100% !important;
+}
+
+html, body {
+  height: 100vh;
+}
+
+/*# sourceMappingURL=custom.css.map */
