@@ -1,4 +1,5 @@
 {% set theme_config = attribute(config.themes, config.system.pages.theme) %}
+{% import "macros/bootstrap_tools.html.twig" as bsTools %}
 
 <!DOCTYPE html>
 <html lang="{{ grav.language.getActive ?: theme_config.default_lang }}">
@@ -14,19 +15,11 @@
         <link rel="canonical" href="{{ page.url(true, true) }}" />
 
         {% block stylesheets %}
-        {% if theme_config.cdn_enabled %}
             {% do assets.addCss('https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css', 102) %}
             {% do assets.addCss('https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap-reboot.min.css', 100) %}
             {% do assets.addCss('https://use.fontawesome.com/releases/v5.1.0/css/all.css', 10) %}
             {% do assets.addCss('https://use.fontawesome.com/releases/v5.1.0/css/brands.css', 10) %}
-        {% else %}
             {% do assets.addCss('theme://css/custom.css',105) %}
-            {% do assets.addCss('theme://assets/css-compiled/bootstrap/bootstrap.css', 102) %}
-            {% do assets.addCss('theme://assets/css-compiled/bootstrap/bootstrap-reboot.css', 100) %}
-            {% do assets.addCss('theme://assets/css/fontawesome.css', 10) %}
-            {% do assets.addCss('theme://assets/css/solid.css', 10) %}
-            {% do assets.addCss('theme://assets/css/regular.css', 10) %}
-            {% do assets.addCss('theme://assets/css/brands.css', 10) %}
         {% endif %}
         {% do assets.addCss('theme://assets/css-compiled/bootstrap-blog.css', 99) %}
         {% endblock %}
