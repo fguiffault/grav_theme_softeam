@@ -65,9 +65,18 @@
 
             <!-- Affichage du logo. -->
             <div class="row logo">
-                <div class="mx-auto">
+                <div class="col-4"></div>
+                <div class="col-4">
                     {% set logo_image = theme_config.logo.image %}
                     <img class="rounded mx-auto d-block" src="{{ url(logo_image) }}" alt="" />
+                </div>
+                <div class="col-4 pr-4">
+                    {% if config.plugins.login.enabled and grav.user.username %}
+                        <i class="fas fa-power-off"></i> {% include 'partials/login-status.html.twig' %}
+                        {% if grav.user.authenticated %}
+                            <strong>{{ grav.user.fullname ?: grav.user.username }}</strong>, <a class="logout" href="{{ uri.addNonce((base_url_relative ~ uri.path)|trim('/') ~ '/task' ~ config.system.param_sep ~ 'login.logout', 'logout-form', 'logout-nonce')|e }}">{{ 'PLUGIN_LOGIN.BTN_LOGOUT'|t }}</a>
+                        {% endif %}
+                    {% endif %}
                 </div>
             </div>
 
