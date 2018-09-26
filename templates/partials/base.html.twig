@@ -23,16 +23,10 @@
         {{ assets.css() }}
 
         {% block javascripts %}
-        {% if theme_config.cdn_enabled %}
             {% do assets.addJs('https://code.jquery.com/jquery-3.2.1.slim.min.js', 100) %}
             {% do assets.addJs('https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js', 98) %}
             {% do assets.addJs('https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js', 99) %}
-        {% else %}
-            {% do assets.addJs('jquery', 102) %}
-            {% do assets.addJs('theme://assets/js/popper.min.js', 101) %}
-            {% do assets.addJs('theme://assets/js/bootstrap.min.js', 100) %}
-        {% endif %}
-        {% do assets.addJs('theme://assets/js/bootstrap_blog.js', 99) %}
+            {% do assets.addJs('theme://assets/js/bootstrap_blog.js', 99) %}
         {% endblock %}
         {{ assets.js() }}
     {% endblock head %}
@@ -46,7 +40,9 @@
                 <div class="col-6">
                     <div class="float-right">
                         {% if config.plugins.social.enabled %}
-                            {% include 'partials/social.html.twig' with {'style': config.plugins.social.style} %}
+                            {% if config.plugins.login.enabled and grav.user.username and grav.user.authenticated %}
+                                {% include 'partials/social.html.twig' with {'style': config.plugins.social.style} %}
+                            {% endif %}
                         {% endif %}
                     </div>
                 </div>
@@ -59,12 +55,9 @@
                     {% set logo_image = theme_config.logo.image %}
                     <img class="rounded mx-auto d-block" src="{{ url(logo_image) }}" alt="" />
                 </div>
-                <div class="col-4 pr-4">
-                    {% if config.plugins.login.enabled and grav.user.username %}
-                        <i class="fas fa-power-off"></i> {% include 'partials/login-status.html.twig' %}
-                        {% if grav.user.authenticated %}
-                            <strong>{{ grav.user.fullname ?: grav.user.username }}</strong>, <a class="logout" href="{{ uri.addNonce((base_url_relative ~ uri.path)|trim('/') ~ '/task' ~ config.system.param_sep ~ 'login.logout', 'logout-form', 'logout-nonce')|e }}">{{ 'PLUGIN_LOGIN.BTN_LOGOUT'|t }}</a>
-                        {% endif %}
+                <div class="col-4">
+                    {% if config.plugins.login.enabled and grav.user.username and grav.user.authenticated %}
+                        <a class="logout float-right p-2" href="{{ uri.addNonce((base_url_relative ~ uri.path)|trim('/') ~ '/task' ~ config.system.param_sep ~ 'login.logout', 'logout-form', 'logout-nonce')|e }}"><i class="fas fa-power-off"></i></a>
                     {% endif %}
                 </div>
             </div>
@@ -97,7 +90,7 @@
     <div class="container-fluid content_page">
         <div class="row">
             <!-- Affichage des sous-menus. -->
-            {% if (page != page.topParent and page.topParent.title != 'Pages') or '/search/' in page.url  %}
+            {% if (page != page.topParent and page.topParent.title != 'Pages') and ('/login' not in page.url and '/search/' not in page.url) %}
                 <!-- Affichage d'un menu latéral lorsqu'on se situe dans un sous-menu. -->
                 <div class="col-2 lateral_submenu">
                     {{ include('partials/lateral_submenu.html.twig') }}
@@ -110,7 +103,7 @@
                     {% if page.content is empty %}
                         Aucun article a afficher.
                     {% else %}
-                        {% if page.title != "Page not Found" %}
+                        {% if page.title != "Page not Found" and page.title != "Login" %}
                             <h3>{{ page.title }}</h3>
                             <em>Publié le {{ page.date|date('d/m/Y à H:i') }}</em><br/>
                             <em>Dernière modification le {{ page.modified|date('d/m/Y à H:i') }}</em><br/><br/>
