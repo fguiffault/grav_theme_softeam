@@ -1,11 +1,10 @@
 .lateral_submenu {
-    background-image: linear-gradient(#5C5C5C 1%, #808080);
+    background-color: rgba(51, 51, 51, 0.8);
     color: #FFFFFF;
     padding-top: 30px;
-    min-height: calc(100vh - 230px) !important;
+    margin-top: -15px;
 
-    .selected_submenu
-    {
+    .selected_submenu {
         color: #FDB913;
     }
 

@@ -26,7 +26,7 @@
             {% do assets.addJs('https://code.jquery.com/jquery-3.2.1.slim.min.js', 100) %}
             {% do assets.addJs('https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js', 98) %}
             {% do assets.addJs('https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js', 99) %}
-            {% do assets.addJs('theme://assets/js/bootstrap_blog.js', 99) %}
+            {% do assets.addJs('theme://js/custom.js', 99) %}
         {% endblock %}
         {{ assets.js() }}
     {% endblock head %}
@@ -55,9 +55,9 @@
                     {% set logo_image = theme_config.logo.image %}
                     <img class="rounded mx-auto d-block" src="{{ url(logo_image) }}" alt="" />
                 </div>
-                <div class="col-4">
+                <div class="col-4 logout">
                     {% if config.plugins.login.enabled and grav.user.username and grav.user.authenticated %}
-                        <a class="logout float-right p-2" href="{{ uri.addNonce((base_url_relative ~ uri.path)|trim('/') ~ '/task' ~ config.system.param_sep ~ 'login.logout', 'logout-form', 'logout-nonce')|e }}"><i class="fas fa-power-off"></i></a>
+                        <a class="float-right p-2" href="{{ uri.addNonce((base_url_relative ~ uri.path)|trim('/') ~ '/task' ~ config.system.param_sep ~ 'login.logout', 'logout-form', 'logout-nonce')|e }}"><i class="fas fa-power-off"></i></a>
                     {% endif %}
                 </div>
             </div>
@@ -67,30 +67,33 @@
                 <nav class="navbar navbar-expand-lg mx-auto">
                     <div class="container-fluid">
                         <ul class="nav navbar-nav">
-                            {% for page in pages.children %}
+                            {% for subpage in pages.children %}
                             <li>
-                                <a href="{{ page.url }}">{{ page.menu }}</a>
+                                {% if page.topParent.title == subpage.title or subpage.title == page.title %}
+                                    <a href="{{ subpage.url }}" class="selected_menu">{{ subpage.menu }}</a>
+                                {% else %}
+                                    <a href="{{ subpage.url }}">{{ subpage.menu }}</a>
+                                {% endif %}
                             </li>
                             {% endfor %}
                         </ul>
                     </div>
                 </nav>
             </div>
-
-            <!-- Affichage du champ de recherche. -->
-            <div class="row recherche">
-                <div class="col-6 mx-auto">
-                    {% include 'partials/simplesearch_searchbox.html.twig' %}
-                </div>
-            </div>
         </div>
     {% endblock %}
 
     {% block body %}
     <div class="container-fluid content_page">
+        <!-- Affichage du champ de recherche. -->
+        <div class="row recherche">
+            <div class="col-6 mx-auto">
+                {% include 'partials/simplesearch_searchbox.html.twig' %}
+            </div>
+        </div>
         <div class="row">
             <!-- Affichage des sous-menus. -->
-            {% if (page != page.topParent and page.topParent.title != 'Pages') and ('/login' not in page.url and '/search/' not in page.url) %}
+            {% if (page != page.topParent and page.topParent.title != 'Pages' and page.title != 'Search Results') and ('/login' not in page.url and '/search' not in page.url) %}
                 <!-- Affichage d'un menu latéral lorsqu'on se situe dans un sous-menu. -->
                 <div class="col-2 lateral_submenu">
                     {{ include('partials/lateral_submenu.html.twig') }}
@@ -116,6 +119,9 @@
             </div>
             <div class="col-2"></div>
         </div>
+    </div>
+    <div class="anchor">
+        <a href="#top"><i class="fas fa-arrow-up fa-3x"></i></a>
     </div>
     {% endblock %}
 
